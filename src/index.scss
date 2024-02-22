@@ -2,3 +2,10 @@
 @import 'style/fonts';
 @import 'style/var';
 @import 'style/style';
+
+.todo-app {
+  display: flex;
+  justify-content: center;
+
+  margin: 15px;
+}
