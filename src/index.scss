@@ -5,7 +5,23 @@
 
 .todo-app {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
 
   margin: 15px;
+
+  .inputs-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  table {
+    width: 50%;
+  }
+
+  table, th, td {
+    border: 1px solid black;
+  }
 }

@@ -1,32 +1,51 @@
 import React, { useState } from 'react';
 
 export default function App() {
-  const [task, setTask] = useState("");
+  const [taskName, setTaskName] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
   const [tasksList, setTasksList] = useState([]);
 
-  const handleChange = (event) => {
-    setTask(event.target.value);
+  const handleChangeName = (event) => {
+    setTaskName(event.target.value);
     console.log(event.target.value);
   };
 
-  const addTask = (task) => {
-    setTasksList([...tasksList, task]);
+  const handleChangeDescription = (event) => {
+    setTaskDescription(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const addTask = () => {
+    setTasksList([...tasksList, {name: taskName, description: taskDescription}]);
     console.log(tasksList);
   };
 
   const handleClick = (event) => {
     event.preventDefault();
-    addTask(task);
-    console.log(task);
+    addTask(taskName);
+    console.log(taskName);
   };
 
     return (
       <div className = "todo-app">
         <div className = "todo-container">
-          <input className = "todo-input" type = "text" onChange = {handleChange}/>
+          <div className = "inputs-container">
+          <input className = "task-name-input" type = "text" onChange = {handleChangeName}/>
+          <input className = "task-description-input" type = "text" onChange = {handleChangeDescription}/>
+          </div>
           <button className = "todo-btn" onClick = {handleClick}>Add Task</button>
         </div>
-        <div>{tasksList.map((elem, index) => <div key = {index}>{elem}</div>)}</div>
+
+        <table>
+  <tr>
+    <th>Task</th>
+    <th>Description</th>
+  </tr>
+  {tasksList.map((elem, index) => <tr key={index}><td>{elem.name}</td><td>{elem.description}</td></tr>)}
+</table>
+
+        {/* <ul className = "tasks-list">{tasksList.map((elem, index) => <li key = {index}><div>{elem.name}</div><div>{elem.description}</div></li>)}
+        </ul> */}
       </div>
     );
 }
