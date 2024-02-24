@@ -12,13 +12,18 @@
 
   margin: 15px;
 
-  .inputs-container {
-    display: flex;
-    flex-direction: column;
+  .todo-container {
+    width: 50%;
+
+    .inputs-container {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
+
   table {
-    width: 50%;
+    width: 70%;
   }
 
   table, th, td {
