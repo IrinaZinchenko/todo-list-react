@@ -1,51 +1,55 @@
 import React, { useState } from 'react';
 
 export default function App() {
-  const [taskName, setTaskName] = useState("");
-  const [taskDescription, setTaskDescription] = useState("");
+  const [taskName, setTaskName] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
   const [tasksList, setTasksList] = useState([]);
+  const [error, setError] = useState('');
 
   const handleChangeName = (event) => {
     setTaskName(event.target.value);
-    console.log(event.target.value);
   };
 
   const handleChangeDescription = (event) => {
     setTaskDescription(event.target.value);
-    console.log(event.target.value);
   };
 
-  const addTask = () => {
-    setTasksList([...tasksList, {name: taskName, description: taskDescription}]);
-    console.log(tasksList);
+  const clearInputs = () => {
+    setTaskName('');
+    setTaskDescription('');
   };
 
-  const handleClick = (event) => {
-    event.preventDefault();
-    addTask(taskName);
-    console.log(taskName);
+  const handleAddTask = () => {
+    if (taskName) {
+      setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription}]);
+      clearInputs();
+      setError('');
+    } else {
+      setError('"Task Name" can not be empty');
+    }
   };
 
   return (
-    <div className = "todo-app">
-      <div className = "todo-container">
-        <div className = "inputs-container">
-          <label className = "form-label" htmlFor = "task-name-input">Task</label>
-          <input className = "task-name-input form-control mb-2" type = "text" id = "task-name-input" onChange = {handleChangeName}/>
-          <label className = "form-label" htmlFor = "task-description-input">Description</label>
-          <input className = "task-description-input form-control mb-2" type = "text" id = "task-description-input" onChange = {handleChangeDescription}/>
+    <div className="todo-app">
+      <div className="todo-container">
+        <div className="inputs-container">
+          <label className="form-label" htmlFor="task-name-input">Task Name</label>
+          <input className="task-name-input form-control mb-2" type="text" id="task-name-input" onChange={handleChangeName} value={taskName}/>
+          <label className="form-label" htmlFor="task-description-input">Task Description</label>
+          <input className="task-description-input form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} value={taskDescription}/>
         </div>
-        <button className = "todo-btn btn btn-dark m-2" onClick = {handleClick}>Add Task</button>
+        <button className="todo-btn btn btn-dark m-2" onClick={handleAddTask}>Add Task</button>
+        {error ? <p style={{color: "red"}}>{error}</p> : null}
       </div>
-      <table>
+      <table className="mt-2">
         <thead>
           <tr>
-            <th>Task</th>
-            <th>Description</th>
+            <th>Task Name</th>
+            <th>Task Description</th>
           </tr>
         </thead>
           <tbody>
-            {tasksList.map((elem, index) => <tr key = {index}><td>{elem.name}</td><td>{elem.description}</td></tr>)}
+            {tasksList.map((elem) => <tr key={elem.id}><td>{elem.name}</td><td>{elem.description}</td></tr>)}
           </tbody>
       </table>
     </div>
