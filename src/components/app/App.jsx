@@ -10,7 +10,7 @@ export default function App() {
   const handleKeypress = (event) => {
     // it triggers by pressing the enter key
     if (event.keyCode === 13) {
-    handleAddTask();
+    handleSaveTask();
     }
   };
 
@@ -27,7 +27,7 @@ export default function App() {
     setTaskDescription('');
   };
 
-  const handleAddTask = () => {
+  const handleSaveTask = () => {
     if (taskName) {
       setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription, statusCompleted: false, isEditing: false}]);
       clearInputs();
@@ -35,6 +35,10 @@ export default function App() {
     } else {
       setError('"Task Name" can not be empty');
     }
+  };
+
+  const deleteTask = (id) => {
+    setTasksList([...tasksList.filter((task) => task.id !== id)]);
   };
 
   return (
@@ -46,7 +50,7 @@ export default function App() {
           <label className="form-label" htmlFor="task-description-input">Task Description</label>
           <input className="task-description-input form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} onKeyDown={handleKeypress} value={taskDescription}/>
         </div>
-        <button className="todo-btn btn btn-dark m-2" onClick={handleAddTask}>Add Task</button>
+        <button className="todo-btn btn btn-dark m-2" onClick={handleSaveTask}>Save Task</button>
         {error ? <p style={{color: "red"}}>{error}</p> : null}
       </div>
       <table className="mt-2">
@@ -72,7 +76,7 @@ export default function App() {
               <td>
                 <div className='controls-container'>
                   <button type='button' className='btn'><i className="bi bi-pencil-square"></i></button>
-                  <button type='button' className='btn'><i className="bi bi-x-square"></i></button>
+                  <button type='button' className='btn'><i className="bi bi-x-square" onClick={() => deleteTask(elem.id)}></i></button>
                 </div>
               </td>
             </tr>
