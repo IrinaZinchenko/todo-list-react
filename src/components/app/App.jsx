@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function App() {
   const [taskName, setTaskName] = useState('');
@@ -21,7 +22,7 @@ export default function App() {
 
   const handleAddTask = () => {
     if (taskName) {
-      setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription}]);
+      setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription, statusCompleted: false, isEditing: false}]);
       clearInputs();
       setError('');
     } else {
@@ -44,14 +45,31 @@ export default function App() {
       <table className="mt-2">
         <thead>
           <tr>
-            <th>Status</th>
+            <th align="center">Status</th>
             <th>Task Name</th>
             <th>Task Description</th>
             <th>Controls</th>
           </tr>
         </thead>
           <tbody>
-            {tasksList.map((elem) => <tr key={elem.id}><td>Status</td><td>{elem.name}</td><td>{elem.description}</td><td>Controls</td></tr>)}
+            {tasksList.map((elem) => {
+            return (
+            <tr key={elem.id}>
+              <td>
+                <div className='status-container'>
+                  <input type="checkbox" name="" id="" />
+                </div>
+              </td>
+              <td>{elem.name}</td>
+              <td>{elem.description}</td>
+              <td>
+                <div className='controls-container'>
+                  <button type='button' className='btn'><i className="bi bi-pencil-square"></i></button>
+                  <button type='button' className='btn'><i className="bi bi-x-square"></i></button>
+                </div>
+              </td>
+            </tr>
+            )})}
           </tbody>
       </table>
     </div>
