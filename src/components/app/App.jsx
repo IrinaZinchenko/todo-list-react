@@ -4,13 +4,14 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 export default function App() {
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
+  const [taskId, setTaskId] = useState();
   const [tasksList, setTasksList] = useState([]);
   const [error, setError] = useState('');
 
   const handleKeypress = (event) => {
     // it triggers by pressing the enter key
     if (event.keyCode === 13) {
-    handleSaveTask();
+    taskId ? handleSaveTask() : handleAddTask();
     }
   };
 
@@ -27,14 +28,33 @@ export default function App() {
     setTaskDescription('');
   };
 
-  const handleSaveTask = () => {
+  const handleAddTask = () => {
     if (taskName) {
-      setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription, statusCompleted: false, isEditing: false}]);
+      setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription}]);
       clearInputs();
       setError('');
     } else {
       setError('"Task Name" can not be empty');
     }
+  };
+
+  const handleSaveTask = () => {
+    if (taskId) {
+      const newTasksList = [...tasksList];
+      const taskObjectIndex = newTasksList.findIndex((task) => task.id === taskId);
+      newTasksList[taskObjectIndex] = {...newTasksList[taskObjectIndex], name: taskName, description: taskDescription};
+      setTasksList(newTasksList);
+      setTaskId();
+      clearInputs();
+    }
+  };
+
+  const editTask = (id) => {
+    const currentTask = tasksList.find((task) => task.id === id);
+
+    setTaskName(currentTask.name);
+    setTaskDescription(currentTask.description);
+    setTaskId(currentTask.id);
   };
 
   const deleteTask = (id) => {
@@ -50,7 +70,9 @@ export default function App() {
           <label className="form-label" htmlFor="task-description-input">Task Description</label>
           <input className="task-description-input form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} onKeyDown={handleKeypress} value={taskDescription}/>
         </div>
-        <button className="todo-btn btn btn-dark m-2" onClick={handleSaveTask}>Save Task</button>
+        {taskId ?
+          <button className="todo-btn btn btn-dark m-2" onClick={handleSaveTask}>Save Task</button> :
+          <button className="todo-btn btn btn-dark m-2" onClick={handleAddTask}>Add Task</button>}
         {error ? <p style={{color: "red"}}>{error}</p> : null}
       </div>
       <table className="mt-2">
@@ -75,7 +97,7 @@ export default function App() {
               <td>{elem.description}</td>
               <td>
                 <div className='controls-container'>
-                  <button type='button' className='btn'><i className="bi bi-pencil-square"></i></button>
+                  <button type='button' className='btn'><i className="bi bi-pencil-square" onClick={() => editTask(elem.id)}></i></button>
                   <button type='button' className='btn'><i className="bi bi-x-square" onClick={() => deleteTask(elem.id)}></i></button>
                 </div>
               </td>
