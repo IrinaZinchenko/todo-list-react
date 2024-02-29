@@ -7,6 +7,13 @@ export default function App() {
   const [tasksList, setTasksList] = useState([]);
   const [error, setError] = useState('');
 
+  const handleKeypress = (event) => {
+    // it triggers by pressing the enter key
+    if (event.keyCode === 13) {
+    handleAddTask();
+    }
+  };
+
   const handleChangeName = (event) => {
     setTaskName(event.target.value);
   };
@@ -35,9 +42,9 @@ export default function App() {
       <div className="todo-container">
         <div className="inputs-container">
           <label className="form-label" htmlFor="task-name-input">Task Name</label>
-          <input className="task-name-input form-control mb-2" type="text" id="task-name-input" onChange={handleChangeName} value={taskName}/>
+          <input className="task-name-input form-control mb-2" type="text" id="task-name-input" onChange={handleChangeName} onKeyDown={handleKeypress} value={taskName}/>
           <label className="form-label" htmlFor="task-description-input">Task Description</label>
-          <input className="task-description-input form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} value={taskDescription}/>
+          <input className="task-description-input form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} onKeyDown={handleKeypress} value={taskDescription}/>
         </div>
         <button className="todo-btn btn btn-dark m-2" onClick={handleAddTask}>Add Task</button>
         {error ? <p style={{color: "red"}}>{error}</p> : null}
