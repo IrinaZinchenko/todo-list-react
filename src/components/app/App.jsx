@@ -44,12 +44,14 @@ export default function App() {
       <table className="mt-2">
         <thead>
           <tr>
+            <th>Status</th>
             <th>Task Name</th>
             <th>Task Description</th>
+            <th>Controls</th>
           </tr>
         </thead>
           <tbody>
-            {tasksList.map((elem) => <tr key={elem.id}><td>{elem.name}</td><td>{elem.description}</td></tr>)}
+            {tasksList.map((elem) => <tr key={elem.id}><td>Status</td><td>{elem.name}</td><td>{elem.description}</td><td>Controls</td></tr>)}
           </tbody>
       </table>
     </div>
