@@ -57,6 +57,11 @@ export default function App() {
     setTaskId(currentTask.id);
   };
 
+  const cancel = () => {
+    setTaskId();
+    clearInputs();
+  };
+
   const deleteTask = (id) => {
     setTasksList([...tasksList.filter((task) => task.id !== id)]);
   };
@@ -71,7 +76,11 @@ export default function App() {
           <input className="task-description-input form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} onKeyDown={handleKeypress} value={taskDescription}/>
         </div>
         {taskId ?
-          <button className="todo-btn btn btn-dark m-2" onClick={handleSaveTask}>Save Task</button> :
+          <>
+            <button className="todo-btn btn btn-dark m-2" onClick={handleSaveTask}>Save Task</button>
+            <button className="todo-btn btn btn-dark m-2" onClick={cancel}>Cancel</button>
+          </>
+          :
           <button className="todo-btn btn btn-dark m-2" onClick={handleAddTask}>Add Task</button>}
         {error ? <p style={{color: "red"}}>{error}</p> : null}
       </div>
