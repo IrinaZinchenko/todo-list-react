@@ -43,6 +43,7 @@ export default function App() {
       const newTasksList = [...tasksList];
       const taskObjectIndex = newTasksList.findIndex((task) => task.id === taskId);
       newTasksList[taskObjectIndex] = {...newTasksList[taskObjectIndex], name: taskName, description: taskDescription};
+
       setTasksList(newTasksList);
       setTaskId();
       clearInputs();
@@ -57,7 +58,7 @@ export default function App() {
     setTaskId(currentTask.id);
   };
 
-  const cancel = () => {
+  const cancelEditing = () => {
     setTaskId();
     clearInputs();
   };
@@ -78,7 +79,7 @@ export default function App() {
         {taskId ?
           <>
             <button className="todo-btn btn btn-dark m-2" onClick={handleSaveTask}>Save Task</button>
-            <button className="todo-btn btn btn-dark m-2" onClick={cancel}>Cancel</button>
+            <button className="todo-btn btn btn-dark m-2" onClick={cancelEditing}>Cancel</button>
           </>
           :
           <button className="todo-btn btn btn-dark m-2" onClick={handleAddTask}>Add Task</button>}
