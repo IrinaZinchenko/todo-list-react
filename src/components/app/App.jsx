@@ -67,7 +67,7 @@ export default function App() {
           <label className="form-label" htmlFor="task-name-input">Task Name</label>
           <input className="task-name-input form-control mb-2" type="text" id="task-name-input" onChange={handleChangeName} value={taskName}/>
           <label className="form-label" htmlFor="task-description-input">Task Description</label>
-          <input className="task-description-input form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} value={taskDescription}/>
+          <textarea rows={4} className="task-description-input form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} value={taskDescription}/>
         </div>
         {taskId ?
           <>
