@@ -60,6 +60,27 @@ export default function App() {
     setTasksList([...tasksList.filter((task) => task.id !== id)]);
   };
 
+  const changeCheckboxStatus = (id) => {
+    const newTasksList = [...tasksList];
+    const currentTask = newTasksList.find((task) => task.id === id);
+
+    if (currentTask.isChecked === false) {
+      currentTask.isChecked = true;
+    } else if (currentTask.isChecked === true){
+      currentTask.isChecked = false;
+    }
+
+    setTasksList(newTasksList);
+  };
+
+  const completeTask = (id) => {
+    const currentTask = tasksList.find((task) => task.id === id);
+
+    if (currentTask.isChecked === true) {
+      return true;
+    }
+  };
+
   return (
     <div className="todo-app">
       <div className="todo-container">
@@ -93,11 +114,11 @@ export default function App() {
             <tr key={elem.id}>
               <td>
                 <div className='status-container'>
-                  <input class="form-check-input" type="checkbox" id={elem.id + "-checkbox"}/>
+                  <input className="form-check-input" type="checkbox" onChange={() => changeCheckboxStatus(elem.id)}/>
                 </div>
               </td>
-              <td>{elem.name}</td>
-              <td>{elem.description}</td>
+              <td className={completeTask(elem.id) ? "text-secondary" : null}>{elem.name}</td>
+              <td className={completeTask(elem.id) ? "text-secondary" : null}>{elem.description}</td>
               <td>
                 <div className='controls-container'>
                   <button type='button' className='btn'><i className="bi bi-pencil-square" onClick={() => editTask(elem.id)}></i></button>
