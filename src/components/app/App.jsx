@@ -4,6 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 export default function App() {
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
+  const [taskDate, setTaskDate] = useState('');
   const [taskId, setTaskId] = useState();
   const [tasksList, setTasksList] = useState([]);
   const [error, setError] = useState('');
@@ -16,14 +17,19 @@ export default function App() {
     setTaskDescription(event.target.value);
   };
 
+  const handleChangeDate = (event) => {
+    setTaskDate(event.target.value);
+  };
+
   const clearInputs = () => {
     setTaskName('');
     setTaskDescription('');
+    setTaskDate('');
   };
 
   const handleAddTask = () => {
     if (taskName) {
-      setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription, isChecked: false}]);
+      setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription, date: taskDate,isChecked: false}]);
       clearInputs();
       setError('');
     } else {
@@ -35,7 +41,7 @@ export default function App() {
     if (taskId) {
       const newTasksList = [...tasksList];
       const taskObjectIndex = newTasksList.findIndex((task) => task.id === taskId);
-      newTasksList[taskObjectIndex] = {...newTasksList[taskObjectIndex], name: taskName, description: taskDescription};
+      newTasksList[taskObjectIndex] = {...newTasksList[taskObjectIndex], name: taskName, description: taskDescription, date: taskDate};
 
       setTasksList(newTasksList);
       setTaskId();
@@ -48,6 +54,7 @@ export default function App() {
 
     setTaskName(currentTask.name);
     setTaskDescription(currentTask.description);
+    setTaskDate(currentTask.date);
     setTaskId(currentTask.id);
   };
 
@@ -96,7 +103,8 @@ export default function App() {
           <input className="form-control mb-2" type="text" id="task-name-input" onChange={handleChangeName} value={taskName}/>
           <label className="form-label" htmlFor="task-description-input">Task Description</label>
           <textarea rows={4} className="form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} value={taskDescription}/>
-          <input ></input>
+          <label className="form-label" htmlFor="task-date-input">Date</label>
+          <input className="form-control mb-2" type="date" id="task-date-input" onChange={handleChangeDate} value={taskDate}/>
         </div>
         {taskId ?
           <>
@@ -113,6 +121,7 @@ export default function App() {
             <th align="center">Status</th>
             <th>Task Name</th>
             <th>Task Description</th>
+            <th>Date</th>
             <th>Controls</th>
           </tr>
         </thead>
@@ -127,6 +136,7 @@ export default function App() {
               </td>
               <td className={completeTask(elem.id) ? "my-text-class" : null}>{elem.name}</td>
               <td className={completeTask(elem.id) ? "my-text-class" : null}>{elem.description}</td>
+              <td className={completeTask(elem.id) ? "my-text-class" : null}>{elem.date}</td>
               <td>
                 <div className='controls-container'>
                   <button type='button' className='btn'><i className="bi bi-pencil-square" onClick={() => editTask(elem.id)}></i></button>
