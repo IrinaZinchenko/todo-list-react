@@ -67,12 +67,6 @@ export default function App() {
     // проверка мутирования изначального массива
     // console.log(newTasksList[0] === tasksList[0]);
 
-    // if (currentTask.isChecked === false) {
-    //   currentTask.isChecked = true;
-    // } else if (currentTask.isChecked === true){
-    //   currentTask.isChecked = false;
-    // }
-
     currentTask.isChecked = !currentTask.isChecked;
 
     setTasksList(newTasksList);
@@ -99,17 +93,18 @@ export default function App() {
       <div className="todo-container">
         <div className="inputs-container">
           <label className="form-label" htmlFor="task-name-input">Task Name</label>
-          <input className="task-name-input form-control mb-2" type="text" id="task-name-input" onChange={handleChangeName} value={taskName}/>
+          <input className="form-control mb-2" type="text" id="task-name-input" onChange={handleChangeName} value={taskName}/>
           <label className="form-label" htmlFor="task-description-input">Task Description</label>
-          <textarea rows={4} className="task-description-input form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} value={taskDescription}/>
+          <textarea rows={4} className="form-control mb-2" type="text" id="task-description-input" onChange={handleChangeDescription} value={taskDescription}/>
+          <input ></input>
         </div>
         {taskId ?
           <>
-            <button className="todo-btn btn btn-dark m-2" onClick={handleSaveTask}>Save Task</button>
-            <button className="todo-btn btn btn-dark m-2" onClick={cancelEditing}>Cancel</button>
+            <button className="btn btn-dark m-2" onClick={handleSaveTask}>Save Task</button>
+            <button className="btn btn-dark m-2" onClick={cancelEditing}>Cancel</button>
           </>
           :
-          <button className="todo-btn btn btn-dark m-2" onClick={handleAddTask}>Add Task</button>}
+          <button className="btn btn-dark m-2" onClick={handleAddTask}>Add Task</button>}
         {error ? <p style={{color: "red"}}>{error}</p> : null}
       </div>
       <table className="mt-2">
