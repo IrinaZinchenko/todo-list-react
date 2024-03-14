@@ -64,13 +64,24 @@ export default function App() {
     const newTasksList = [...tasksList];
     const currentTask = newTasksList.find((task) => task.id === id);
 
-    if (currentTask.isChecked === false) {
-      currentTask.isChecked = true;
-    } else if (currentTask.isChecked === true){
-      currentTask.isChecked = false;
-    }
+    // проверка мутирования изначального массива
+    // console.log(newTasksList[0] === tasksList[0]);
+
+    // if (currentTask.isChecked === false) {
+    //   currentTask.isChecked = true;
+    // } else if (currentTask.isChecked === true){
+    //   currentTask.isChecked = false;
+    // }
+
+    currentTask.isChecked = !currentTask.isChecked;
 
     setTasksList(newTasksList);
+
+    // проверка мутирования изначального массива
+    // if (tasksList[0]) {
+    //   tasksList[0].taskName = 'dupa'
+    // }
+    // console.log('1', tasksList[0])
   };
 
   const completeTask = (id) => {
@@ -80,6 +91,8 @@ export default function App() {
       return true;
     }
   };
+
+  // console.log('2', tasksList[0])
 
   return (
     <div className="todo-app">
@@ -117,8 +130,8 @@ export default function App() {
                   <input className="form-check-input" type="checkbox" onChange={() => changeCheckboxStatus(elem.id)}/>
                 </div>
               </td>
-              <td className={completeTask(elem.id) ? "text-secondary" : null}>{elem.name}</td>
-              <td className={completeTask(elem.id) ? "text-secondary" : null}>{elem.description}</td>
+              <td className={completeTask(elem.id) ? "my-text-class" : null}>{elem.name}</td>
+              <td className={completeTask(elem.id) ? "my-text-class" : null}>{elem.description}</td>
               <td>
                 <div className='controls-container'>
                   <button type='button' className='btn'><i className="bi bi-pencil-square" onClick={() => editTask(elem.id)}></i></button>
