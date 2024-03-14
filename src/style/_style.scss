@@ -1,4 +1,47 @@
-.app {
-  font-size: 32px;
-  color: red;
+.todo-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+
+  margin: 15px;
+
+  .todo-container {
+    width: 50%;
+
+    .inputs-container {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  table {
+    width: 70%;
+  }
+
+  table, th, td {
+    border: 1px solid black;
+  }
+
+  th {
+    text-align: center;
+  }
+
+  td {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    white-space: pre-wrap;
+  }
+
+  .status-container, .controls-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .my-text-class {
+    color: #808080;
+    text-decoration: line-through;
+  }
 }
