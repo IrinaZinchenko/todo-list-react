@@ -2,11 +2,17 @@ import React, { useState } from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function App() {
+  const mock = [
+    {id: 1, name: 'Buy groceries', description: 'Buy fruits, vegetables, and milk', date: '2024-03-20', isChecked: false},
+    {id: 2, name: 'Finish report', description: 'Complete the annual sales report', date: '2024-03-27', isChecked: false},
+    {id: 3, name: 'Pick up kids', description: 'Pick up kids from school at 3pm', date: '2024-03-20', isChecked: false},
+  ];
+
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [taskDate, setTaskDate] = useState('');
   const [taskId, setTaskId] = useState();
-  const [tasksList, setTasksList] = useState([]);
+  const [tasksList, setTasksList] = useState([...mock]);
   const [error, setError] = useState('');
 
   const handleChangeName = (event) => {
@@ -29,7 +35,7 @@ export default function App() {
 
   const handleAddTask = () => {
     if (taskName) {
-      setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription, date: taskDate,isChecked: false}]);
+      setTasksList([...tasksList, {id: Date.now(), name: taskName, description: taskDescription, date: taskDate, isChecked: false}]);
       clearInputs();
       setError('');
     } else {
@@ -95,6 +101,14 @@ export default function App() {
 
   // console.log('2', tasksList[0])
 
+  // фильтр
+  // const [filtredData, setFiltredData] = useState(tasksList);
+
+  // const removeItemFromList = (id) => {
+  //   const newDataSet = filtredData.filter((task) => task.id !== id);
+  //   setFiltredData(newDataSet);
+  // };
+
   return (
     <div className="todo-app">
       <div className="todo-container">
@@ -115,6 +129,16 @@ export default function App() {
           <button className="btn btn-dark m-2" onClick={handleAddTask}>Add Task</button>}
         {error ? <p style={{color: "red"}}>{error}</p> : null}
       </div>
+
+      <div className="filter-container">
+        <label className="form-label" htmlFor="filter">Show tasks:</label>
+        <select className="form-select"id="filter">
+          <option value="all" selected>All</option>
+          <option value="completed">Completed</option>
+          <option value="in-progress">In progress</option>
+        </select>
+      </div>
+
       <table className="mt-2">
         <thead>
           <tr>
