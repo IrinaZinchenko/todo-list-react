@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// import Select from 'react-select';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
   const [taskDate, setTaskDate] = useState('');
   const [taskId, setTaskId] = useState();
   const [tasksList, setTasksList] = useState([...mock]);
+  const [statusFilterValue, setStatusFilterValue] = useState('all');
   const [error, setError] = useState('');
 
   const handleChangeName = (event) => {
@@ -78,17 +80,11 @@ export default function App() {
     const currentTask = newTasksList.find((task) => task.id === id);
 
     // проверка мутирования изначального массива
-    // console.log(newTasksList[0] === tasksList[0]);
+    // исправить мутирование массива на map
 
     currentTask.isChecked = !currentTask.isChecked;
 
     setTasksList(newTasksList);
-
-    // проверка мутирования изначального массива
-    // if (tasksList[0]) {
-    //   tasksList[0].taskName = 'dupa'
-    // }
-    // console.log('1', tasksList[0])
   };
 
   const completeTask = (id) => {
@@ -99,15 +95,23 @@ export default function App() {
     }
   };
 
-  // console.log('2', tasksList[0])
-
   // фильтр
-  // const [filtredData, setFiltredData] = useState(tasksList);
+  const handleStatusFilterChange = (event) => {
+    setStatusFilterValue(event.target.value);
+  };
 
-  // const removeItemFromList = (id) => {
-  //   const newDataSet = filtredData.filter((task) => task.id !== id);
-  //   setFiltredData(newDataSet);
-  // };
+  const filterTasks = (tasks) => {
+    let filteredTasks = [];
+
+    if (statusFilterValue === "completed") {
+      filteredTasks = tasks.filter((task) => task.isChecked);
+    } else if (statusFilterValue === "in-progress") {
+      filteredTasks = tasks.filter((task) => !task.isChecked);
+    } else {
+      filteredTasks = tasks;
+    }
+    return filteredTasks;
+  };
 
   return (
     <div className="todo-app">
@@ -132,8 +136,8 @@ export default function App() {
 
       <div className="filter-container">
         <label className="form-label" htmlFor="filter">Show tasks:</label>
-        <select className="form-select"id="filter">
-          <option value="all" selected>All</option>
+        <select className="form-select" id="filter" value={statusFilterValue} onChange={handleStatusFilterChange}>
+          <option value="all">All</option>
           <option value="completed">Completed</option>
           <option value="in-progress">In progress</option>
         </select>
@@ -150,12 +154,12 @@ export default function App() {
           </tr>
         </thead>
           <tbody>
-            {tasksList.map((elem) => {
+            {filterTasks(tasksList).map((elem) => {
             return (
             <tr key={elem.id}>
               <td>
                 <div className='status-container'>
-                  <input className="form-check-input" type="checkbox" onChange={() => changeCheckboxStatus(elem.id)}/>
+                  <input className="form-check-input" type="checkbox" checked={elem.isChecked} onChange={() => changeCheckboxStatus(elem.id)}/>
                 </div>
               </td>
               <td className={completeTask(elem.id) ? "my-text-class" : null}>{elem.name}</td>
