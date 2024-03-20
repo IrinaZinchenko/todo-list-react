@@ -15,6 +15,7 @@ export default function App() {
   const [taskId, setTaskId] = useState();
   const [tasksList, setTasksList] = useState([...mock]);
   const [statusFilterValue, setStatusFilterValue] = useState('all');
+  const [sortingTypeValue, setSortingTypeValue] = useState('by-date');
   const [error, setError] = useState('');
 
   const handleChangeName = (event) => {
@@ -110,7 +111,40 @@ export default function App() {
     } else {
       filteredTasks = tasks;
     }
+
     return filteredTasks;
+  };
+
+  // сортировка
+  const handleSortingTypeChange = (event) => {
+    setSortingTypeValue(event.target.value);
+  };
+
+  const sortingTasks = (tasks) => {
+    let sortedTasks = [];
+
+    if (sortingTypeValue === 'by-date') {
+      sortedTasks = tasks.toSorted((a, b) => {
+        let dateA = new Date(a.date);
+        let dateB = new Date(b.date);
+        return dateA - dateB;
+      });
+    } else if (sortingTypeValue === 'by-status') {
+      sortedTasks = tasks.toSorted((a, b) => {
+        let statusA = Number(a.isChecked);
+        let statusB = Number(b.isChecked);
+        return statusA - statusB;
+      });
+    }
+
+    return sortedTasks;
+  };
+
+  const filterAndSortingTasks = (tasks) => {
+    let filtredTasks = filterTasks(tasks);
+    let sortedTasks = sortingTasks(filtredTasks);
+
+    return sortedTasks;
   };
 
   return (
@@ -143,6 +177,14 @@ export default function App() {
         </select>
       </div>
 
+      <div className="sorting-container">
+        <label className="form-label" htmlFor="sorting">Sort by:</label>
+        <select className="form-select" id="sorting" value={sortingTypeValue} onChange={handleSortingTypeChange}>
+          <option value="by-date">Date</option>
+          <option value="by-status">Status</option>
+        </select>
+      </div>
+
       <table className="mt-2">
         <thead>
           <tr>
@@ -154,7 +196,7 @@ export default function App() {
           </tr>
         </thead>
           <tbody>
-            {filterTasks(tasksList).map((elem) => {
+            {filterAndSortingTasks(tasksList).map((elem) => {
             return (
             <tr key={elem.id}>
               <td>
