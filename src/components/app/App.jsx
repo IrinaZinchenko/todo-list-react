@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import React, { useState } from 'react';
 import useFilter from './hooks/useFilter';
 import useSorting from './hooks/useSorting';
 
@@ -18,8 +18,6 @@ export default function App() {
   const [taskDate, setTaskDate] = useState('');
   const [taskId, setTaskId] = useState();
   const [tasksList, setTasksList] = useState([...mock]);
-  // const [statusFilterValue, setStatusFilterValue] = useState('all');
-  // const [sortingTypeValue, setSortingTypeValue] = useState('by-date');
   const [error, setError] = useState('');
 
   const handleChangeName = (event) => {
