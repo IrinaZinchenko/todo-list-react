@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-// import Select from 'react-select';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import useFilter from './hooks/useFilter';
+import useSorting from './hooks/useSorting';
 
 export default function App() {
+  const {statusFilterValue, handleStatusFilterChange, filterTasks} = useFilter();
+  const {sortingTypeValue, handleSortingTypeChange, sortingTasks} = useSorting();
+
   const mock = [
     {id: 1, name: 'Buy groceries', description: 'Buy fruits, vegetables, and milk', date: '2024-03-20', isChecked: false},
     {id: 2, name: 'Finish report', description: 'Complete the annual sales report', date: '2024-03-27', isChecked: false},
@@ -14,8 +18,8 @@ export default function App() {
   const [taskDate, setTaskDate] = useState('');
   const [taskId, setTaskId] = useState();
   const [tasksList, setTasksList] = useState([...mock]);
-  const [statusFilterValue, setStatusFilterValue] = useState('all');
-  const [sortingTypeValue, setSortingTypeValue] = useState('by-date');
+  // const [statusFilterValue, setStatusFilterValue] = useState('all');
+  // const [sortingTypeValue, setSortingTypeValue] = useState('by-date');
   const [error, setError] = useState('');
 
   const handleChangeName = (event) => {
@@ -96,56 +100,13 @@ export default function App() {
     }
   };
 
-  // фильтр
-  const handleStatusFilterChange = (event) => {
-    setStatusFilterValue(event.target.value);
-  };
-
-  const filterTasks = (tasks) => {
-    let filteredTasks = [];
-
-    if (statusFilterValue === "completed") {
-      filteredTasks = tasks.filter((task) => task.isChecked);
-    } else if (statusFilterValue === "in-progress") {
-      filteredTasks = tasks.filter((task) => !task.isChecked);
-    } else {
-      filteredTasks = tasks;
-    }
-
-    return filteredTasks;
-  };
-
-  // сортировка
-  const handleSortingTypeChange = (event) => {
-    setSortingTypeValue(event.target.value);
-  };
-
-  const sortingTasks = (tasks) => {
-    let sortedTasks = [];
-
-    if (sortingTypeValue === 'by-date') {
-      sortedTasks = tasks.toSorted((a, b) => {
-        let dateA = new Date(a.date);
-        let dateB = new Date(b.date);
-        return dateA - dateB;
-      });
-    } else if (sortingTypeValue === 'by-status') {
-      sortedTasks = tasks.toSorted((a, b) => {
-        let statusA = Number(a.isChecked);
-        let statusB = Number(b.isChecked);
-        return statusA - statusB;
-      });
-    }
-
-    return sortedTasks;
-  };
-
+  // фильтр и сортировка
   const filterAndSortingTasks = (tasks) => {
     let filtredTasks = filterTasks(tasks);
-    let sortedTasks = sortingTasks(filtredTasks);
+    let sortedAndFiltredTasks = sortingTasks(filtredTasks);
 
-    return sortedTasks;
-  };
+    return sortedAndFiltredTasks;
+  }
 
   return (
     <div className="todo-app">
