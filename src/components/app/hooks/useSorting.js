@@ -30,6 +30,6 @@ export default function useSorting() {
   return {
     sortingTypeValue,
     handleSortingTypeChange,
-    sortingTasks,
+    sortingTasks
   }
 }
