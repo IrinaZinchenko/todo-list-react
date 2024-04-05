@@ -3,21 +3,22 @@ import React, { useState } from 'react';
 import useFilter from './hooks/useFilter';
 import useSorting from './hooks/useSorting';
 
-export default function App() {
-  const {statusFilterValue, handleStatusFilterChange, filterTasks} = useFilter();
-  const {sortingTypeValue, handleSortingTypeChange, sortingTasks} = useSorting();
+const mock = [
+  {id: 1, name: 'Buy groceries', description: 'Buy fruits, vegetables, and milk', date: '2024-03-20', isChecked: false},
+  {id: 2, name: 'Finish report', description: 'Complete the annual sales report', date: '2024-03-27', isChecked: false},
+  {id: 3, name: 'Pick up kids', description: 'Pick up kids from school at 3pm', date: '2024-03-20', isChecked: false},
+];
 
-  const mock = [
-    {id: 1, name: 'Buy groceries', description: 'Buy fruits, vegetables, and milk', date: '2024-03-20', isChecked: false},
-    {id: 2, name: 'Finish report', description: 'Complete the annual sales report', date: '2024-03-27', isChecked: false},
-    {id: 3, name: 'Pick up kids', description: 'Pick up kids from school at 3pm', date: '2024-03-20', isChecked: false},
-  ];
+export default function App() {
+  const [tasksList, setTasksList] = useState([...mock]);
+
+  const {filteredTasks, filterModeValue, handleFilterModeChange} = useFilter(tasksList, 'all');
+  const {sortedTasks, sortingTypeValue, handleSortingTypeChange} = useSorting(filteredTasks, 'by-date');
 
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [taskDate, setTaskDate] = useState('');
   const [taskId, setTaskId] = useState();
-  const [tasksList, setTasksList] = useState([...mock]);
   const [error, setError] = useState('');
 
   const handleChangeName = (event) => {
@@ -98,13 +99,6 @@ export default function App() {
     }
   };
 
-  // фильтр и сортировка
-  const filterAndSortingTasks = (tasks) => {
-    let filtredTasks = filterTasks(tasks);
-    let sortedAndFiltredTasks = sortingTasks(filtredTasks);
-
-    return sortedAndFiltredTasks;
-  }
 
   return (
     <div className="todo-app">
@@ -129,7 +123,7 @@ export default function App() {
 
       <div className="filter-container">
         <label className="form-label" htmlFor="filter">Show tasks:</label>
-        <select className="form-select" id="filter" value={statusFilterValue} onChange={handleStatusFilterChange}>
+        <select className="form-select" id="filter" value={filterModeValue} onChange={(event) => handleFilterModeChange(event.target.value)}>
           <option value="all">All</option>
           <option value="completed">Completed</option>
           <option value="in-progress">In progress</option>
@@ -138,7 +132,7 @@ export default function App() {
 
       <div className="sorting-container">
         <label className="form-label" htmlFor="sorting">Sort by:</label>
-        <select className="form-select" id="sorting" value={sortingTypeValue} onChange={handleSortingTypeChange}>
+        <select className="form-select" id="sorting" value={sortingTypeValue} onChange={(event) => handleSortingTypeChange(event.target.value)}>
           <option value="by-date">Date</option>
           <option value="by-status">Status</option>
         </select>
@@ -155,7 +149,7 @@ export default function App() {
           </tr>
         </thead>
           <tbody>
-            {filterAndSortingTasks(tasksList).map((elem) => {
+            {sortedTasks.map((elem) => {
             return (
             <tr key={elem.id}>
               <td>

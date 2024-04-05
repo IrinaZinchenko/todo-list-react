@@ -1,22 +1,22 @@
 import { useState } from 'react';
 
-export default function useSorting() {
-  const [sortingTypeValue, setSortingTypeValue] = useState('by-date');
+export default function useSorting(tasks, defaultSortingMode) {
+  const [sortingTypeValue, setSortingTypeValue] = useState(defaultSortingMode);
 
-  const handleSortingTypeChange = (event) => {
-    setSortingTypeValue(event.target.value);
+  const handleSortingTypeChange = (mode) => {
+    setSortingTypeValue(mode);
   };
 
-  const sortingTasks = (tasks) => {
+  const sortingTasks = (mode) => {
     let sortedTasks = [];
 
-    if (sortingTypeValue === 'by-date') {
+    if (mode === 'by-date') {
       sortedTasks = tasks.toSorted((a, b) => {
         let dateA = new Date(a.date);
         let dateB = new Date(b.date);
         return dateA - dateB;
       });
-    } else if (sortingTypeValue === 'by-status') {
+    } else if (mode === 'by-status') {
       sortedTasks = tasks.toSorted((a, b) => {
         let statusA = Number(a.isChecked);
         let statusB = Number(b.isChecked);
@@ -27,9 +27,11 @@ export default function useSorting() {
     return sortedTasks;
   };
 
+  const sortedTasks = sortingTasks(sortingTypeValue);
+
   return {
+    sortedTasks,
     sortingTypeValue,
-    handleSortingTypeChange,
-    sortingTasks
+    handleSortingTypeChange
   }
 }

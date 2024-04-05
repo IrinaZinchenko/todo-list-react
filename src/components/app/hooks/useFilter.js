@@ -1,18 +1,18 @@
 import { useState } from 'react';
 
-export default function useFilter() {
-  const [statusFilterValue, setStatusFilterValue] = useState('all');
+export default function useFilter(tasks, defaultFilterMode) {
+  const [filterModeValue, setFilterModeValue] = useState(defaultFilterMode);
 
-  const handleStatusFilterChange = (event) => {
-    setStatusFilterValue(event.target.value);
+  const handleFilterModeChange = (mode) => {
+    setFilterModeValue(mode);
   };
 
-  const filterTasks = (tasks) => {
+  const filterTasks = (mode) => {
     let filteredTasks = [];
 
-    if (statusFilterValue === "completed") {
+    if (mode === "completed") {
       filteredTasks = tasks.filter((task) => task.isChecked);
-    } else if (statusFilterValue === "in-progress") {
+    } else if (mode === "in-progress") {
       filteredTasks = tasks.filter((task) => !task.isChecked);
     } else {
       filteredTasks = tasks;
@@ -21,9 +21,11 @@ export default function useFilter() {
     return filteredTasks;
   };
 
+  const filteredTasks = filterTasks(filterModeValue);
+
   return {
-    statusFilterValue,
-    handleStatusFilterChange,
-    filterTasks
+    filteredTasks,
+    filterModeValue,
+    handleFilterModeChange
   }
 }
