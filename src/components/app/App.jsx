@@ -13,7 +13,7 @@ export default function App() {
   const [tasksList, setTasksList] = useState([...mock]);
 
   const {filteredTasks, filterModeValue, handleFilterModeChange} = useFilter(tasksList, 'all');
-  const {sortedTasks, sortingTypeValue, handleSortingTypeChange} = useSorting(filteredTasks, 'by-date');
+  const {sortedTasks, sortingTypeValue, handleSortingTypeChange} = useSorting(filteredTasks, 'ascending');
 
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
@@ -131,10 +131,10 @@ export default function App() {
       </div>
 
       <div className="sorting-container">
-        <label className="form-label" htmlFor="sorting">Sort by:</label>
+        <label className="form-label" htmlFor="sorting">Sort by date:</label>
         <select className="form-select" id="sorting" value={sortingTypeValue} onChange={(event) => handleSortingTypeChange(event.target.value)}>
-          <option value="by-date">Date</option>
-          <option value="by-status">Status</option>
+          <option value="ascending">Ascending</option>
+          <option value="descending">Descending</option>
         </select>
       </div>
 

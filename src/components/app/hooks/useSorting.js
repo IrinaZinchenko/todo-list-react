@@ -10,17 +10,17 @@ export default function useSorting(tasks, defaultSortingMode) {
   const sortingTasks = (mode) => {
     let sortedTasks = [];
 
-    if (mode === 'by-date') {
+    if (mode === 'ascending') {
       sortedTasks = tasks.toSorted((a, b) => {
         let dateA = new Date(a.date);
         let dateB = new Date(b.date);
         return dateA - dateB;
       });
-    } else if (mode === 'by-status') {
+    } else if (mode === 'descending') {
       sortedTasks = tasks.toSorted((a, b) => {
-        let statusA = Number(a.isChecked);
-        let statusB = Number(b.isChecked);
-        return statusA - statusB;
+        let dateA = new Date(a.date);
+        let dateB = new Date(b.date);
+        return dateB - dateA;
       });
     }
 
